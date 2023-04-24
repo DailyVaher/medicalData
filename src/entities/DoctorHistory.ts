@@ -1,11 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm"
+import { Doctor } from "./Doctor"
 
 @Entity()
-export class DoctorHistory {
-  remove: any;
-  save() {
-    throw new Error("Method not implemented.");
-  }
+export class DoctorHistory extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id!: number
 
     @Column("date")
     startDate!: Date
@@ -16,4 +15,7 @@ export class DoctorHistory {
     @Column("varchar", { length: 200 })
     reasonForLeaving!: string
    
+    @OneToMany(() => Doctor, doctor => doctor.doctorHistory)
+    doctors!: Doctor[]
+    
 }

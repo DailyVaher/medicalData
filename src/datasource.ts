@@ -1,7 +1,17 @@
 import { DataSource } from "typeorm";
 import { config } from "./config";
-import { Patient } from "./entities/Patient";
+import{Patient} from "./entities/Patient";
+import{Doctor} from "./entities/Doctor";
 import "reflect-metadata"
+import { DoctorHistory } from "./entities/DoctorHistory";
+import { Drug } from "./entities/Drug";
+import { FollowUpVisit } from "./entities/FollowUpVisit";
+import { Hospital } from "./entities/Hospital";
+import { InitialVisit } from "./entities/InitialVisit";
+import { InsuranceCompany } from "./entities/InsuranceCompany";
+import { OfficeVisit } from "./entities/OfficeVisit";
+import { Prescription } from "./entities/Prescription";
+import { RoutineVisit } from "./entities/RoutineVisit";
 
 // andmebaasiühenduse konfguratsioon
 const defaultDataSource = new DataSource({
@@ -11,9 +21,9 @@ const defaultDataSource = new DataSource({
   username: config.database.username,
   password: config.database.password,
   database: config.database.db,
-  entities: [Patient],
+  entities: [Patient, Doctor, DoctorHistory, Drug, FollowUpVisit, Hospital, InitialVisit, InsuranceCompany, OfficeVisit, Patient, Prescription, RoutineVisit],
   synchronize: true,
-  migrations: [],
+  logging: false
 });
 
 // kontrollime üle kas andmebaasi ühendust on võimalik luua
