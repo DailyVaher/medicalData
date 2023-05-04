@@ -12,6 +12,9 @@ export class InsuranceCompany extends BaseEntity {
     @Column("varchar", { length: 50 })
     phone!: string
 
+    @Column("int", { unique: true })
+    patientId!: number
+
     @OneToMany(() => Patient, patient => patient.insuranceCompany)
     patients!: Patient[];
     

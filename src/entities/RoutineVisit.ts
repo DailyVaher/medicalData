@@ -5,12 +5,15 @@ import { Doctor } from "./Doctor";
 @Entity()
 export class RoutineVisit extends BaseEntity {
     @PrimaryGeneratedColumn()
+    id!: number
+
+    @Column("int", {unique: true })
     patientId!: number
     
     @Column("int", {unique: true })
     doctorId!: number
    
-    @Column("date", { unique: true })
+    @Column("date")
     dateOfVisit!: Date
 
     @Column("int")

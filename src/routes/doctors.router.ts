@@ -1,7 +1,7 @@
 import express from 'express';
 import defaultDataSource from '../datasource';
-import { Patient } from '../entities/Patient';
 import { Doctor } from '../entities/Doctor';
+
 
 
 
@@ -13,6 +13,7 @@ interface CreateDoctorParams {
     address: string;
     phone: string;
     specialization: string;
+    hospitalId: number;
     hospitalAffilitation: string;
     dateOfAffilitation: Date;
 }
@@ -23,6 +24,7 @@ interface UpdateDoctorParams {
     address?: string;
     phone?: string;
     specialization?: string;
+    hospitalId?: number;
     hospitalAffilitation?: string;
     dateOfAffilitation?: Date;
 }
@@ -47,18 +49,19 @@ router.get("/", async (req, res) => {
 // POST - saadab infot
 router.post("/", async (req, res) => {
 try {
-    const { firstName, lastName, address, phone, specialization, hospitalAffilitation, dateOfAffilitation } = req.body as CreateDoctorParams;
+    const { firstName, lastName, address, phone, specialization, hospitalId, hospitalAffilitation, dateOfAffilitation } = req.body as CreateDoctorParams;
 
     // TODO: validate & santize
-    if (!firstName || !lastName || !address || !phone || !specialization || !hospitalAffilitation || !dateOfAffilitation) {
+    if (!firstName || !lastName || !address || !phone || !specialization || !hospitalId || !hospitalAffilitation || !dateOfAffilitation) {
     return res
         .status(400)
         .json({ error: "Complete doctors data", req: {
-            firstName: firstName,
+        firstName: firstName,
         lastName: lastName,
         address: address,
         phone: phone,
         specialization: specialization,
+        hospitalId: hospitalId,
         hospitalAffilitation: hospitalAffilitation,
         dateOfAffilitation: dateOfAffilitation,
         }});
@@ -72,9 +75,11 @@ try {
     address: address.trim() ?? "",
     phone: phone.trim() ?? "",
     specialization: specialization.trim() ?? "",
+    hospitalId: hospitalId ?? "",
     hospitalAffilitation: hospitalAffilitation.trim() ?? "",
     dateOfAffilitation: dateOfAffilitation ?? "",
     });
+
 
     //save doctor to database
     const result = await doctor.save();
@@ -98,23 +103,6 @@ try {
     .getRepository(Doctor)
     .findOne({ where:{id: parseInt(id)}, relations: ['patients'] });
 
-    // Querybuildering tehtud samalaadne päring (leftjoin tõttu hetkel ainult 1)
-    // const authorArticles = await defaultDataSource.createQueryBuilder()
-    // .select("*")
-    // .from("author", "author")
-    // .leftJoin("article", "articles", "articles.authorId = author.id")
-    // .where("author.id = :id", {id: id})
-    // .getRawOne();
-    
-    // return res.status(200).json({ data: {
-    //     id:authorArticles.id,
-    //     firstName:authorArticles.firstName,
-    //     lastName:authorArticles.lastName,
-    //     article: {
-    //         title: authorArticles.title,
-    //         body: authorArticles.body
-    //     }
-    //  }});
 
     return res.status(200).json({ data: doctor });
 } catch (error) {
@@ -129,7 +117,7 @@ try {
 router.put("/:id", async (req, res) => {
 try {
     const { id } = req.params;
-    const { firstName, lastName, address, phone, specialization, hospitalAffilitation, dateOfAffilitation } = req.body as UpdateDoctorParams;
+    const { firstName, lastName, address, phone, specialization, hospitalId, hospitalAffilitation, dateOfAffilitation } = req.body as UpdateDoctorParams;
 
     const doctor = await defaultDataSource
     .getRepository(Doctor)
@@ -145,6 +133,7 @@ try {
     doctor.address = address ? address : doctor.address;
     doctor.phone = phone ? phone : doctor.phone;
     doctor.specialization = specialization ? specialization : doctor.specialization;
+    doctor.hospitalId = hospitalId ? hospitalId : doctor.hospitalId;
     doctor.hospitalAffilitation = hospitalAffilitation ? hospitalAffilitation : doctor.hospitalAffilitation;
     doctor.dateOfAffilitation = dateOfAffilitation ? dateOfAffilitation : doctor.dateOfAffilitation;
 

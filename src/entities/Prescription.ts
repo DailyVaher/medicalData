@@ -11,6 +11,21 @@ export class Prescription extends BaseEntity {
     @Column("int", {unique: true })
     drugId!: number
 
+    @Column("varchar", { length: 200 })
+    drugName!: string
+
+    @Column("varchar", { length: 200 })
+    doctorId!: string
+
+    @Column("varchar", { length: 200 })
+    doctorName!: string
+
+    @Column("varchar", { length: 200 })
+    patientId!: string
+
+    @Column("varchar", { length: 200 })
+    patientName!: string
+
     @Column("date")
     datePrescribed!: Date
    

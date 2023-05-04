@@ -29,8 +29,8 @@ export class Doctor extends BaseEntity{
     @Column("varchar", { length: 200 })
     specialization!: string
 
-    @Column("varchar", { length: 100 })
-    hospital!: string
+    @Column("int", { unique: true })
+    hospitalId!: number
 
     @Column("varchar", { length: 100 })
     hospitalAffilitation!: string
@@ -50,7 +50,7 @@ export class Doctor extends BaseEntity{
     @OneToMany(() => Hospital, hospital => hospital.doctors)
     hospitals!: Hospital[]
   
-    @OneToOne(() => DoctorHistory, doctorHistory => doctorHistory.doctor)
+    @OneToOne(() => DoctorHistory, doctorHistory => doctorHistory.doctors)
     doctorHistory!: DoctorHistory
 
     @OneToMany(() => FollowUpVisit, followUpVisit => followUpVisit.doctor)

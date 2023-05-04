@@ -7,25 +7,25 @@ export class DoctorHistory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number
 
-    @Column("varchar", { length: 100 })
-    doctor!: string
+  @Column("int", { unique: true })
+  doctorId!: number
 
-    @Column("varchar", { length: 100 })
-    hospital!: string
+  @Column("int", { unique: true })
+  hospitalId!: number
 
-    @Column("date")
-    startDate!: Date
+  @Column("date")
+  startDate!: Date
 
-    @Column("date")
-    endDate!: Date
+  @Column("date")
+  endDate!: Date
 
-    @Column("varchar", { length: 200 })
-    reasonForLeaving!: string
+  @Column("varchar", { length: 200, nullable: true })
+  reasonForLeaving!: string 
    
-    @OneToMany(() => Doctor, doctor => doctor.doctorHistory)
-    doctors!: Doctor[]
+  @OneToMany(() => Doctor, doctor => doctor.doctorHistory)
+  doctors!: Doctor[]
 
-    @OneToMany(() => Hospital, hospital => hospital.doctorHistory)
-    hospitals!: Hospital[]
+  @OneToMany(() => Hospital, hospital => hospital.doctorHistory)
+  hospitals!: Hospital[]
     
 }

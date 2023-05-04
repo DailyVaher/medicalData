@@ -32,10 +32,10 @@ export class Patient extends BaseEntity {
     @Column("varchar", { length: 50 })
     email!: string
 
-    @Column("int")
+    @Column("int", {nullable: true})
     insuranceId!: string
 
-    @Column("varchar", { length: 200 })
+    @Column("varchar", { length: 200, nullable: true })
     prescription!: string
 
     @Column("varchar", { length: 200, nullable: true })
@@ -47,8 +47,9 @@ export class Patient extends BaseEntity {
     @Column("varchar", { length: 200, nullable: true })
     insuranceOwnerCompanyName!: string   	
 
-    @Column("int")
+    @Column("int", { unique: true })
     doctorId!: number
+
 
   @ManyToOne(() => Doctor, doctor => doctor.patients, {eager:true})
   doctor!: Doctor

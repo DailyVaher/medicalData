@@ -13,7 +13,7 @@ interface CreatePatientParams {
     address: string;
     phone: string;
     email: string;
-    insuranceId: number;
+    insuranceId: string;
     insuranceOwnerFirstName: string;
     insuranceOwnerLastName: string;
     insuranceOwnerCompanyName: string;
@@ -27,7 +27,7 @@ interface UpdatePatientParams {
     address?: string;
     phone?: string;
     email?: string;
-    insuranceId?: number;
+    insuranceId?: string;
     insuranceOwnerFirstName?: string;
     insuranceOwnerLastName?: string;
     insuranceOwnerCompanyName?: string;
