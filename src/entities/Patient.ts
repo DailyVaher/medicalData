@@ -8,6 +8,7 @@ import { FollowUpVisit } from "./FollowUpVisit";
 import { RoutineVisit } from "./RoutineVisit";
 
 
+
 // Entity dekoraator @Entity() ütleb TypeORMile, kuidas sellest tabel teha ja millised väljad on olemas
 
 @Entity()
@@ -32,7 +33,10 @@ export class Patient extends BaseEntity {
     email!: string
 
     @Column("int")
-    insuranceId!: number
+    insuranceId!: string
+
+    @Column("varchar", { length: 200 })
+    prescription!: string
 
     @Column("varchar", { length: 200, nullable: true })
     insuranceOwnerFirstName!: string
@@ -55,17 +59,17 @@ export class Patient extends BaseEntity {
   @OneToMany(() => Prescription, prescription => prescription.patient)
   prescriptions!: Prescription[];
 
-  @OneToOne(() => OfficeVisit, officeVisit => officeVisit.patient)
-  officeVisit!: OfficeVisit;
+  @OneToMany(() => OfficeVisit, officeVisit => officeVisit.patient)
+  officeVisits!: OfficeVisit[];
 
-  @OneToOne(() => InitialVisit, initialVisit => initialVisit.patient)
-  initialVisit!: InitialVisit;
+  @OneToMany(() => InitialVisit, initialVisit => initialVisit.patient)
+  initialVisits!: InitialVisit[];
 
-  @OneToOne(() => FollowUpVisit, followUpVisit => followUpVisit.patient)
-  followUpVisit!: FollowUpVisit;
+  @OneToMany(() => FollowUpVisit, followUpVisit => followUpVisit.patient)
+  followUpVisits!: FollowUpVisit[];
 
-  @OneToOne(() => RoutineVisit, routineVisit => routineVisit.patient)
-  routineVisit!: RoutineVisit;
+  @OneToMany(() => RoutineVisit, routineVisit => routineVisit.patient)
+  routineVisits!: RoutineVisit[];
 
 }
 

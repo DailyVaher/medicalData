@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, OneToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, OneToOne, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne } from "typeorm";
 import { Patient } from "./Patient";
 import { Doctor } from "./Doctor";
 
@@ -19,10 +19,10 @@ export class InitialVisit extends BaseEntity {
     @Column("varchar", { length: 200, nullable: true })
     symptoms!: string
     
-    @OneToOne(() => Patient, patient => patient.initialVisit)
+    @ManyToOne(() => Patient, patient => patient.initialVisits)
     patient!: Patient;
 
-    @OneToMany(() => Doctor, doctor => doctor.initialVisits)
+    @ManyToOne(() => Doctor, doctor => doctor.initialVisits)
     doctor!: Doctor;
 
 }

@@ -1,5 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne } from "typeorm"
 import { Patient } from "./Patient";
+import { Prescription } from "./Prescription";
+import { Hospital } from "./Hospital";
 import { DoctorHistory } from "./DoctorHistory";
 import { FollowUpVisit } from "./FollowUpVisit";
 import { InitialVisit } from "./InitialVisit";
@@ -28,14 +30,28 @@ export class Doctor extends BaseEntity{
     specialization!: string
 
     @Column("varchar", { length: 100 })
+    hospital!: string
+
+    @Column("varchar", { length: 100 })
     hospitalAffilitation!: string
 
     @Column("date")
     dateOfAffilitation!: Date
 
+    @Column("varchar", { length: 100 })
+    prescription!: string
+
     @OneToMany(() => Patient, patient => patient.doctor)
     patients!: Patient[]
-  doctorHistory: any;
+
+    @OneToMany(() => Prescription, prescription => prescription.doctor)
+    prescriptions!: Prescription[]
+
+    @OneToMany(() => Hospital, hospital => hospital.doctors)
+    hospitals!: Hospital[]
+  
+    @OneToOne(() => DoctorHistory, doctorHistory => doctorHistory.doctor)
+    doctorHistory!: DoctorHistory
 
     @OneToMany(() => FollowUpVisit, followUpVisit => followUpVisit.doctor)
     followUpVisits!: FollowUpVisit[]

@@ -19,7 +19,7 @@ export class FollowUpVisit extends BaseEntity {
     @Column("varchar", { length: 200, nullable: true })
     symptoms!: string
     
-    @OneToOne(() => Patient, patient => patient.followUpVisit)
+    @ManyToOne(() => Patient, patient => patient.followUpVisits)
     patient!: Patient;
 
     @ManyToOne(() => Doctor, doctor => doctor.followUpVisits)

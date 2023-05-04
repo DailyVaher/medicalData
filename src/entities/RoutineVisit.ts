@@ -25,10 +25,10 @@ export class RoutineVisit extends BaseEntity {
     @Column("varchar", { length: 200, nullable: true })
     diagnosis!: string
 
-    @OneToOne(() => Patient, patient => patient.routineVisit)
+    @ManyToOne(() => Patient, patient => patient.routineVisits)
     patient!: Patient;
 
-    @OneToMany(() => Doctor, doctor => doctor.routineVisits)
+    @ManyToOne(() => Doctor, doctor => doctor.routineVisits)
     doctor!: Doctor;
 
 }

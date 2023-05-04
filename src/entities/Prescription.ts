@@ -1,11 +1,12 @@
 import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, ManyToOne, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Drug } from "./Drug";
 import { Patient } from "./Patient";
+import { Doctor } from "./Doctor";
 
 @Entity()
 export class Prescription extends BaseEntity {
     @PrimaryGeneratedColumn()
-    RXid!: number
+    id!: number
     
     @Column("int", {unique: true })
     drugId!: number
@@ -31,7 +32,10 @@ export class Prescription extends BaseEntity {
     @ManyToOne(() => Drug, drug => drug.prescription)
     drug!: Drug
 
-    @OneToOne(() => Patient, patient => patient.prescriptions)
-    patient!: Patient;
+    @ManyToOne(() => Patient, patient => patient.prescription)
+    patient!: Patient
 
+    @ManyToOne(() => Doctor, doctor => doctor.prescription)
+    doctor!: Doctor
+    
 }
