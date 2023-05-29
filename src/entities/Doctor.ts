@@ -1,12 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm"
 import { Patient } from "./Patient";
 import { Prescription } from "./Prescription";
-import { Hospital } from "./Hospital";
+import { Visit } from "./Visit";
 import { DoctorHistory } from "./DoctorHistory";
-import { FollowUpVisit } from "./FollowUpVisit";
-import { InitialVisit } from "./InitialVisit";
-import { OfficeVisit } from "./OfficeVisit";
-import { RoutineVisit } from "./RoutineVisit";
+
 
 @Entity()
 export class Doctor extends BaseEntity{
@@ -29,8 +26,14 @@ export class Doctor extends BaseEntity{
     @Column("varchar", { length: 200 })
     specialization!: string
 
-    @Column("int", { unique: true })
+    @Column("int")
     hospitalId!: number
+
+    @Column("int")
+    doctorHistoryId!: number
+
+    @Column("varchar", { length: 200 })
+    hospital!: string
 
     @Column("varchar", { length: 100 })
     hospitalAffilitation!: string
@@ -46,23 +49,11 @@ export class Doctor extends BaseEntity{
 
     @OneToMany(() => Prescription, prescription => prescription.doctor)
     prescriptions!: Prescription[]
-
-    @OneToMany(() => Hospital, hospital => hospital.doctors)
-    hospitals!: Hospital[]
   
-    @OneToOne(() => DoctorHistory, doctorHistory => doctorHistory.doctors)
-    doctorHistory!: DoctorHistory
+    @OneToMany(() => DoctorHistory, DoctorHistory => DoctorHistory.doctor)
+    doctorHistory!: DoctorHistory[]
 
-    @OneToMany(() => FollowUpVisit, followUpVisit => followUpVisit.doctor)
-    followUpVisits!: FollowUpVisit[]
-
-    @OneToMany(() => InitialVisit, initialVisit => initialVisit.doctor)
-    initialVisits!: InitialVisit[]
-
-    @OneToMany(() => OfficeVisit, officeVisit => officeVisit.doctor)
-    officeVisits!: OfficeVisit[]
-
-    @OneToMany(() => RoutineVisit, routineVisit => routineVisit.doctor)
-    routineVisits!: RoutineVisit[]
+    @OneToMany(() => Visit, Visit => Visit.doctor)
+    visits!: Visit[]
 
 }

@@ -2,10 +2,8 @@ import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, ManyToOne, OneToMan
 import { Doctor } from "./Doctor";
 import { InsuranceCompany } from "./InsuranceCompany";
 import { Prescription } from "./Prescription";
-import { OfficeVisit } from "./OfficeVisit";
-import { InitialVisit } from "./InitialVisit";
-import { FollowUpVisit } from "./FollowUpVisit";
-import { RoutineVisit } from "./RoutineVisit";
+import { Visit } from "./Visit";
+import { DoctorHistory } from "./DoctorHistory";
 
 
 
@@ -33,7 +31,7 @@ export class Patient extends BaseEntity {
     email!: string
 
     @Column("int", {nullable: true})
-    insuranceId!: string
+    insuranceId!: number
 
     @Column("varchar", { length: 200, nullable: true })
     prescription!: string
@@ -51,26 +49,20 @@ export class Patient extends BaseEntity {
     doctorId!: number
 
 
-  @ManyToOne(() => Doctor, doctor => doctor.patients, {eager:true})
+  @ManyToOne(() => Doctor, doctor => doctor.patients, {eager: true})
   doctor!: Doctor
 
   @ManyToOne(() => InsuranceCompany, insuranceCompany => insuranceCompany.patients)
   insuranceCompany!: InsuranceCompany
 
+  @OneToMany(() => DoctorHistory, doctorHistory => doctorHistory.patient)
+  doctorHistory!: DoctorHistory[];
+
   @OneToMany(() => Prescription, prescription => prescription.patient)
   prescriptions!: Prescription[];
 
-  @OneToMany(() => OfficeVisit, officeVisit => officeVisit.patient)
-  officeVisits!: OfficeVisit[];
-
-  @OneToMany(() => InitialVisit, initialVisit => initialVisit.patient)
-  initialVisits!: InitialVisit[];
-
-  @OneToMany(() => FollowUpVisit, followUpVisit => followUpVisit.patient)
-  followUpVisits!: FollowUpVisit[];
-
-  @OneToMany(() => RoutineVisit, routineVisit => routineVisit.patient)
-  routineVisits!: RoutineVisit[];
+  @OneToMany(() => Visit, visit => visit.patient)
+  visits!: Visit[];
 
 }
 

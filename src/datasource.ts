@@ -5,13 +5,11 @@ import{Doctor} from "./entities/Doctor";
 import "reflect-metadata"
 import { DoctorHistory } from "./entities/DoctorHistory";
 import { Drug } from "./entities/Drug";
-import { FollowUpVisit } from "./entities/FollowUpVisit";
 import { Hospital } from "./entities/Hospital";
-import { InitialVisit } from "./entities/InitialVisit";
 import { InsuranceCompany } from "./entities/InsuranceCompany";
-import { OfficeVisit } from "./entities/OfficeVisit";
 import { Prescription } from "./entities/Prescription";
-import { RoutineVisit } from "./entities/RoutineVisit";
+import { Visit } from "./entities/Visit";
+
 
 // andmebaasiühenduse konfguratsioon
 const defaultDataSource = new DataSource({
@@ -21,7 +19,7 @@ const defaultDataSource = new DataSource({
   username: config.database.username,
   password: config.database.password,
   database: config.database.db,
-  entities: [Patient, Doctor, DoctorHistory, Drug, FollowUpVisit, Hospital, InitialVisit, InsuranceCompany, OfficeVisit, Patient, Prescription, RoutineVisit],
+  entities: [Patient, Doctor, DoctorHistory, Drug, Hospital, InsuranceCompany, Prescription, Visit],
   synchronize: true,
   logging: false
 });

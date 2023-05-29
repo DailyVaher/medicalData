@@ -2,9 +2,6 @@ import express from 'express';
 import defaultDataSource from '../datasource';
 import { Doctor } from '../entities/Doctor';
 
-
-
-
 const router = express.Router();
 
 interface CreateDoctorParams {
@@ -29,24 +26,24 @@ interface UpdateDoctorParams {
     dateOfAffilitation?: Date;
 }
   
-// GET - info päring (kõik arstid)
+// GET - getting info (all doctors)
 router.get("/", async (req, res) => {
     try {
-      // küsi arstid andmebaasist
+      // ask database for all doctors
       const doctors = await defaultDataSource.getRepository(Doctor).find();
   
-      // vasta arstide listiga JSON formaadis
+      // respond with list of doctors in JSON format
       return res.status(200).json({ data: doctors });
     } catch (error) {
       console.log("ERROR", { message: error });
   
-      // vasta süsteemi veaga kui andmebaasipäringu jooksul ootamatu viga tekib
-      return res.status(500).json({ message: "Could not fetch Doctors" });
+      // respond with system error if unexpected error occurs during database query
+      return res.status(500).json({ message: "Could not fetch doctors" });
     }
 });
   
   
-// POST - saadab infot
+// POST - getting info
 router.post("/", async (req, res) => {
 try {
     const { firstName, lastName, address, phone, specialization, hospitalId, hospitalAffilitation, dateOfAffilitation } = req.body as CreateDoctorParams;
@@ -55,7 +52,7 @@ try {
     if (!firstName || !lastName || !address || !phone || !specialization || !hospitalId || !hospitalAffilitation || !dateOfAffilitation) {
     return res
         .status(400)
-        .json({ error: "Complete doctors data", req: {
+        .json({ error: "Complete doctor`s data", req: {
         firstName: firstName,
         lastName: lastName,
         address: address,
@@ -68,7 +65,7 @@ try {
     }
 
 
-    // create new Doctor with given parameters
+    // create new doctor with given parameters
     const doctor = Doctor.create({
     firstName: firstName.trim() ?? "",
     lastName: lastName.trim() ?? "",
@@ -88,17 +85,17 @@ try {
 } catch (error) {
     console.log("ERROR", { message: error });
 
-    // vasta süsteemi veaga kui andmebaasipäringu jooksul ootamatu viga tekib
+    // respond with system error if unexpected error occurs during database query
     return res.status(500).json({ message: "Could not fetch doctors" });
 }
 });
 
-// GET - info päring (üksik arst)
+// GET - getting info (one doctor)
 router.get("/:id", async (req, res) => {
 try {
     const { id } = req.params;
 
-    // tavaline ORM päring koos "relation" entity sisuga
+    //a standard ORM query with "relation" entity content (tavaline ORM päring koos "relation" entity sisuga)
     const doctor = await defaultDataSource
     .getRepository(Doctor)
     .findOne({ where:{id: parseInt(id)}, relations: ['patients'] });
@@ -108,7 +105,7 @@ try {
 } catch (error) {
     console.log("ERROR", { message: error });
 
-    // vasta süsteemi veaga kui andmebaasipäringu jooksul ootamatu viga tekib
+    // respond with system error if unexpected error occurs during database query
     return res.status(500).json({ message: "Could not fetch Doctors" });
 }
 });
@@ -127,7 +124,7 @@ try {
     return res.status(404).json({ error: "Doctor not found" });
     }
 
-    // uuendame andmed objektis (lokaalne muudatus)
+    // update the data in the object (local change) (uuendame andmed objektis (lokaalne muudatus))
     doctor.firstName = firstName ? firstName : doctor.firstName;
     doctor.lastName = lastName ? lastName : doctor.lastName;
     doctor.address = address ? address : doctor.address;
@@ -135,17 +132,17 @@ try {
     doctor.specialization = specialization ? specialization : doctor.specialization;
     doctor.hospitalId = hospitalId ? hospitalId : doctor.hospitalId;
     doctor.hospitalAffilitation = hospitalAffilitation ? hospitalAffilitation : doctor.hospitalAffilitation;
-    doctor.dateOfAffilitation = dateOfAffilitation ? dateOfAffilitation : doctor.dateOfAffilitation;
+    doctor.dateOfAffilitation = dateOfAffilitation ? dateOfAffilitation : doctor.dateOfAffilitation
 
-    //salvestame muudatused andmebaasi 
+    // save the changes to the database (salvestame muudatused andmebaasi) 
     const result = await doctor.save();
 
-    // saadame vastu uuendatud andmed (kui midagi töödeldakse serveris on seda vaja kuvada)
+    // respond with updated data (vastame uuendatud andmetega)
     return res.status(200).json({ data: result });
 }    catch (error) {
     console.log("ERROR", { message: error });
 
-    // vasta süsteemi veaga kui andmebaasipäringu jooksul ootamatu viga tekib
+    // respond with system error if unexpected error occurs during database query
     return res.status(500).json({ message: "Could not update Doctors " });
 }
 });
@@ -165,12 +162,12 @@ router.delete("/:id", async(req, res) => {
 
         const result = await doctor.remove();
         
-        // tagastame igaks juhuks kustutatud andmed
+        // return deleted data just in case 8tagastame igaks juhuks kustutatud andmed)
         return res.status(200).json({ data: result });
     } catch (error) {
         console.log("ERROR", { message: error });
     
-        // vasta süsteemi veaga kui andmebaasipäringu jooksul ootamatu viga tekib
+        // respond with system error if unexpected error occurs during database query
         return res.status(500).json({ message: "Could not update Doctors" });
     }
 });

@@ -3,11 +3,12 @@ import { Prescription } from "./Prescription";
 
 @Entity()
 export class Drug extends BaseEntity {
+
     @PrimaryGeneratedColumn()
     id!: number
     
     @Column("varchar", { length: 200 })
-    name!: string
+    drugName!: string
    
     @Column("varchar", { length: 200 })
     sideEffects!: string
@@ -15,7 +16,10 @@ export class Drug extends BaseEntity {
     @Column("varchar", { length: 200 })
     benefits!: string
 
+    @Column("int", {unique: true })
+    prescriptionId!: number
+
     @OneToMany(() => Prescription, prescription => prescription.drug)
-    prescription!: Prescription[];
+    prescription!: Prescription[];    
     
 }
