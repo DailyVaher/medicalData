@@ -8,13 +8,13 @@ export class DoctorHistory extends BaseEntity {
   @PrimaryColumn({type: "bigint"})
   startDate!: number
 
-  @Column("int", { unique: true })
+  @Column("int", {unique: true})
   doctorId!: number
 
-  @Column("int", { unique: true })
+  @Column("int", {unique: true})
   hospitalId!: number
 
-  @Column ("int", {unique: true})
+  @Column ("int", {unique: true, nullable: true})
   patientId!: number
 
   @Column({type: "bigint", nullable: true})
@@ -24,10 +24,10 @@ export class DoctorHistory extends BaseEntity {
   reasonForLeaving!: string 
 
   @ManyToOne(() => Doctor, doctor => doctor.doctorHistory)
-  doctor!: Doctor
+  doctor!: Doctor;
 
   @ManyToOne(() => Patient, patient => patient.doctorHistory)
-  patient!: Patient
+  patient!: Patient;
 
 }
   

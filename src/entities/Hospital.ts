@@ -16,9 +16,6 @@ export class Hospital extends BaseEntity {
     @Column("varchar", { length: 50 })
     phone!: string
 
-    @Column("int", { unique: true })
-    doctorHistoryId!: number
-
     @OneToMany(() => DoctorHistory, doctorHistory => doctorHistory.hospitalId)
     doctorHistory!: DoctorHistory[]
     

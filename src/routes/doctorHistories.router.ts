@@ -29,7 +29,7 @@ interface UpdateDoctorHistoryParams {
 router.get("/", async (req, res) => {
     try {
       // get doctorhistories from database
-      const doctorHistories = await defaultDataSource.getRepository(DoctorHistory).find({ relations: ['doctor', 'hospital']});
+      const doctorHistories = await defaultDataSource.getRepository(DoctorHistory).find({ relations: ['doctor', 'patient']});
 
       if (!doctorHistories) {
         return res.status(404).json({ error: "Doctor histories not found" });
@@ -165,7 +165,7 @@ router.delete("/:id", async(req, res) => {
         .findOneBy({ startDate: parseInt(id) });
     
         if (!doctorHistory) {
-        return res.status(404).json({ error: "Hospital not found" });
+        return res.status(404).json({ error: "Doctor history not found" });
         }
 
         const result = await doctorHistory.remove();

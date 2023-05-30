@@ -3,7 +3,6 @@ import defaultDataSource from '../datasource';
 import { Patient } from '../entities/Patient';
 import { Doctor } from '../entities/Doctor';
 import { InsuranceCompany } from '../entities/InsuranceCompany';
-import { resourceLimits } from 'worker_threads';
 
 const router = express.Router();
 
@@ -32,7 +31,7 @@ router.get("/", async (req, res) => {
         // find all patients from database
         const patients = await defaultDataSource
             .getRepository(Patient)
-            .find({relations: ['insurance', 'doctor']});
+            .find({relations: ['insuranceCompany', 'doctor']});
 
         // validate if patients exists
         if (await Patient.count() === 0) {
@@ -143,7 +142,7 @@ router.put("/:id", async (req, res) => {
         // find patient from database
         const patient = await defaultDataSource
             .getRepository(Patient)
-            .findOne({where: {id: parseInt(id)}, relations: ['insurance', 'doctor']});
+            .findOne({where: {id: parseInt(id)}, relations: ['insuranceCompany', 'doctor']});
 
         // validate & sanitize
         if (!patient) {
@@ -203,7 +202,7 @@ router.delete("/:id", async (req, res) => {
         // find patient from database
         const patient = await defaultDataSource
             .getRepository(Patient)
-            .findOne({where: {id: parseInt(id)}, relations: ['insurance', 'doctor']});
+            .findOne({where: {id: parseInt(id)}, relations: ['insuranceCompany', 'doctor']});
 
         // validate
         if (!patient) {

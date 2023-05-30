@@ -89,7 +89,7 @@ router.get("/:id", async (req, res) => {
       // a standard ORM query with "relation" entity content (tavaline ORM päring koos "relation" entity sisuga)
       const drug = await defaultDataSource
       .getRepository(Drug)
-      .findOne({ where:{id: parseInt(id)}, relations: ['drugs'] });
+      .findOne({ where:{id: parseInt(id)}, relations: ['drug'] });
   
   
       return res.status(200).json({ data: drug });

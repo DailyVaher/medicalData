@@ -79,7 +79,7 @@ try {
     // a standard ORM query with "relation" entity content (tavaline ORM päring koos "relation" entity sisuga)
     const hospital = await defaultDataSource
     .getRepository(Hospital)
-    .findOne({ where:{id: parseInt(id)}, relations: ['hospitals'] });
+    .findOne({ where:{id: parseInt(id)}, relations: ['hospital'] });
 
 
     return res.status(200).json({ data: hospital });

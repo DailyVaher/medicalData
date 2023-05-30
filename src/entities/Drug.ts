@@ -16,7 +16,7 @@ export class Drug extends BaseEntity {
     @Column("varchar", { length: 200 })
     benefits!: string
 
-    @Column("int", {unique: true })
+    @Column("int", { nullable: true })
     prescriptionId!: number
 
     @OneToMany(() => Prescription, prescription => prescription.drug)

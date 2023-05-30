@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, ManyToOne, OneToMany, OneToOne, CreateDateColumn, UpdateDateColumn, DeepPartial } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, ManyToOne, OneToMany} from "typeorm";
 import { Doctor } from "./Doctor";
 import { InsuranceCompany } from "./InsuranceCompany";
 import { Prescription } from "./Prescription";
@@ -35,15 +35,6 @@ export class Patient extends BaseEntity {
 
     @Column("varchar", { length: 200, nullable: true })
     prescription!: string
-
-    @Column("varchar", { length: 200, nullable: true })
-    insuranceOwnerFirstName!: string
-
-    @Column("varchar", { length: 200, nullable: true })
-    insuranceOwnerLastName!: string
-
-    @Column("varchar", { length: 200, nullable: true })
-    insuranceOwnerCompanyName!: string   	
 
     @Column("int", { unique: true })
     doctorId!: number
